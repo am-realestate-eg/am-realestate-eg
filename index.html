@@ -649,9 +649,14 @@ function renderProjects(list){
     return;
   }
   container.innerHTML = list.map((p, i) => {
-    const art = p.image
-      ? `<img src="${escapeHtml(p.image)}" alt="${escapeHtml(p.title)}" loading="lazy" onclick="window.open(this.src, '_blank')">`
-      : PROJECT_ICONS[i % PROJECT_ICONS.length](i);
+    let art = '';
+    if (p.video) {
+      art = `<video src="${escapeHtml(p.video)}" controls style="width:100%; height:100%; object-fit:cover; border-radius:12px; min-height: 200px;"></video>`;
+    } else if (p.image) {
+      art = `<img src="${escapeHtml(p.image)}" alt="${escapeHtml(p.title)}" loading="lazy" onclick="window.open(this.src, '_blank')">`;
+    } else {
+      art = PROJECT_ICONS[i % PROJECT_ICONS.length](i);
+    }
     const tags = (p.tags || []).map(t => `<span class="tag">${escapeHtml(t)}</span>`).join('');
     const details = (p.details || []).map(d => `<li>${escapeHtml(d)}</li>`).join('');
     return `
@@ -751,6 +756,24 @@ const projectsData = {
         "تصميم مدروس يجمع بين اتساع المساحة وجودة التنفيذ",
         "يناسب العائلات الباحثة عن سكن هادئ بموقع حيوي"
       ]
+    },
+    {
+      "id": "p5",
+      "title": "مشروع بورتو الفؤاد السكني الفاخر",
+      "location": "أرقى أحياء المنيا",
+      "tags": [
+        "سكن فاخر",
+        "إطلالة بانورامية",
+        "تصميم فريد"
+      ],
+      "status": "متاح للبيع",
+      "details": [
+        "تصميم معماري فاخر يجمع بين الأصالة والعصرية",
+        "مساحات سكنية تلبي كافة احتياجات الأسرة بخصوصية",
+        "واجهات بانورامية توفر إضاءة طبيعية ممتازة",
+        "مداخل فندقية وتشطيبات عالية الجودة على مستوى فاخر"
+      ],
+      "video": "porto_al_fouad_luxury_promo.mp4"
     }
   ]
 };
