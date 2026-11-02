@@ -331,7 +331,7 @@
         <a href="#contact" class="btn-ghost">تحدث مع فريقنا</a>
       </div>
       <div class="stat-row">
-        <div class="stat"><b>4</b><span>أبراج سكنية</span></div>
+        <div class="stat"><b>5</b><span>مشاريع سكنية وفاخرة</span></div>
         <div class="stat"><b>85–140</b><span>متر² مساحات متاحة</span></div>
         <div class="stat"><b>100%</b><span>مواقع على شوارع رئيسية</span></div>
       </div>
@@ -636,7 +636,8 @@ function renderProjects(list){
     let artStyle = '';
     if (p.video) {
       artStyle = 'aspect-ratio: 9/16; border: none; background: #000;';
-      art = `<video src="${escapeHtml(p.video)}" controls style="width:100%; height:100%; object-fit:contain; border-radius:3px;"></video>`;
+      const posterAttr = p.image ? ' poster="' + escapeHtml(p.image) + '"' : '';
+      art = `<video src="${escapeHtml(p.video)}"${posterAttr} controls playsinline preload="metadata" style="width:100%; height:100%; object-fit:contain; border-radius:3px;"></video>`;
     } else if (p.image) {
       art = `<img src="${escapeHtml(p.image)}" alt="${escapeHtml(p.title)}" loading="lazy" onclick="window.open(this.src, '_blank')">`;
     } else {
@@ -666,26 +667,49 @@ function renderProjects(list){
 
 const projectsData = {
   "projects": [
-        {
-            "id": "p3",
-            "title": "برج الفؤاد — بجوار موقف مصر",
-            "location": "سمالوط، شارع بورسعيد بجوار موقف مصر",
-            "image": "assets/images/project-p3-al-fouad.png",
-            "tags": [
-                "110م²",
-                "125م²",
-                "واجهة شرقية",
-                "3 شقق بالدور"
-            ],
-            "status": "متاح للبيع",
-            "details": [
-                "شقق سكنية بمساحات مميزة 110م² و 125م²",
-                "موقع استراتيجي على شارع بورسعيد مباشرة",
-                "تصميم هندسي يضمن الخصوصية (3 شقق بالدور)",
-                "خيارات للواجهة (شرقية، ونواصي قبلية وغربية)"
-            ],
-            "video": "al_fouad_promo.mp4"
-        },
+    {
+      "id": "p-porto-oval",
+      "title": "بورتو المنيا الجديدة — عمارات الأوفال",
+      "location": "بورتو المنيا الجديدة، عمارات الأوفال",
+      "image": "images/project-porto-oval.jpg",
+      "tags": [
+        "122م²",
+        "95م²",
+        "متاح أرضي بجاردن",
+        "أقساط شهرية / كل 3 شهور",
+        "فيو كمبوند فاخر"
+      ],
+      "status": "متاح للبيع",
+      "details": [
+        "شقق سكنية فاخرة بمساحات 122م² و 95م² بنماذج وتقسيمات هندسية متعددة",
+        "متاح وحدات دور أرضي بحديقة خاصة: جاردن 13م² لشقق 122م²، وجاردن 18م² لشقق 95م²",
+        "تصميم معماري راقٍ واستغلال هندسي ذكي مع خصوصية تامة للغرف",
+        "ريسبشن واسع وإطلالات مميزة مفتوحة داخل أرقى كمبوند بالمنيا الجديدة",
+        "تسهيلات مرنة في السداد: أقساط شهرية أو دفعات كل 3 شهور بدون أي ضغوطات",
+        "الوحدات محدودة وبأسبقية الحجز والتعاقد"
+      ],
+      "video": "porto_oval_promo.mp4"
+    },
+    {
+      "id": "p-fouad",
+      "title": "برج الفؤاد — بجوار موقف مصر",
+      "location": "سمالوط، شارع بورسعيد بجوار موقف مصر",
+      "image": "assets/images/project-p3-al-fouad.png",
+      "tags": [
+        "110م²",
+        "125م²",
+        "واجهة شرقية",
+        "3 شقق بالدور"
+      ],
+      "status": "متاح للبيع",
+      "details": [
+        "شقق سكنية بمساحات مميزة 110م² و 125م²",
+        "موقع استراتيجي على شارع بورسعيد مباشرة",
+        "تصميم هندسي يضمن الخصوصية (3 شقق بالدور)",
+        "خيارات للواجهة (شرقية، ونواصي قبلية وغربية)"
+      ],
+      "video": "al_fouad_promo.mp4"
+    },
     {
       "id": "p1",
       "title": "برج شارع المدارس — بجوار جامع الزهراء",
@@ -708,25 +732,6 @@ const projectsData = {
         "سهولة الوصول لموقع حيوي بالمدينة"
       ],
       "video": "zahraa_promo_video.mp4"
-    },
-    {
-      "id": "p2",
-      "title": "برج شارع عدنان المالكي",
-      "location": "المنيا، شارع عدنان المالكي الرئيسي",
-      "image": "images/project-p2-adnan-malky.png",
-      "tags": [
-        "مساحات متنوعة",
-        "واجهة شرقية",
-        "موقع مباشر على الشارع"
-      ],
-      "status": "متاح للبيع",
-      "details": [
-        "شقق سكنية بمساحات متنوعة",
-        "واجهة شرقية مميزة",
-        "موقع مباشر على شارع رئيسي، حيوي بمدينة المنيا",
-        "مجموعة متنوعة من الوحدات تناسب السكن والاستثمار"
-      ],
-      "video": "adnan_malky_promo_v2.mp4"
     },
     {
       "id": "p3",
