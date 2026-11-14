@@ -2011,8 +2011,8 @@
         <!-- Media with Play Button -->
         <div class="spotlight-media">
           <span class="badge-spotlight">المشروع الأيقوني الفاخر</span>
-          <img src="images/project-porto-oval.jpg" alt="بورتو المنيا الجديدة عمارات الأوفال">
-          <div class="btn-play-video" onclick="openVideoModal('videos/porto_oval_promo.mp4', 'بورتو المنيا الجديدة — عمارات الأوفال')" title="مشاهدة الفيديو الترويجي">
+          <img src="project-porto-oval.jpg" alt="بورتو المنيا الجديدة عمارات الأوفال" onerror="this.src='images/project-porto-oval.jpg'">
+          <div class="btn-play-video" onclick="openVideoModal('porto_oval_promo.mp4', 'بورتو المنيا الجديدة — عمارات الأوفال')" title="مشاهدة الفيديو الترويجي">
             <svg fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
           </div>
         </div>
@@ -2117,7 +2117,7 @@
         </div>
 
         <div class="comm-img" style="border-radius:var(--radius-md); overflow:hidden; border:1px solid var(--border-champagne); box-shadow:var(--shadow-md);">
-          <img src="images/commercial-showcase.png" alt="محلات تجارية بأرقى الأبراج" style="width:100%; height:100%; object-fit:cover;">
+          <img src="commercial-showcase.png" alt="محلات تجارية بأرقى الأبراج" onerror="this.src='images/commercial-showcase.png'" style="width:100%; height:100%; object-fit:cover;">
         </div>
       </div>
     </div>
@@ -2167,7 +2167,7 @@
         <!-- Info -->
         <div>
           <div class="chairman-profile">
-            <img src="images/logo.jpg" alt="لوجو شركة أرض الفيروز" class="chairman-avatar-logo">
+            <img src="logo.jpg" alt="لوجو شركة أرض الفيروز" class="chairman-avatar-logo" onerror="this.src='images/logo.jpg'">
             <div class="chairman-info">
               <h4>أبانوب مجدي ملك</h4>
               <span class="chairman-role">شركة أرض الفيروز للمقاولات العامة والتطوير العقاري</span>
@@ -2219,7 +2219,7 @@
   <!-- ==================== FOOTER ==================== -->
   <footer>
     <div class="container">
-      <img src="images/logo.jpg" alt="لوجو شركة أرض الفيروز" class="footer-logo">
+      <img src="logo.jpg" alt="لوجو شركة أرض الفيروز" class="footer-logo" onerror="this.src='images/logo.jpg'">
       <div style="font-size:1.15rem; font-weight:800; color:#fff; margin-bottom:4px;">شركة أرض الفيروز للمقاولات العامة والتطوير العقاري</div>
       <div class="brand-tagline" style="font-size:0.85rem; margin-bottom:14px;">S.M.A REAL ESTATE & CONTRACTING</div>
       <p class="foot-text">8 سنوات من الخبرة في التطوير العقاري والإشراف الهندسي — المنيا وسمالوط وبورتو المنيا الجديدة.</p>
@@ -2263,6 +2263,22 @@
 
   <!-- ==================== JAVASCRIPT ==================== -->
   <script>
+    
+    // Global fallback for images (handles both root and images/ paths)
+    window.addEventListener('error', function(e) {
+      if (e.target && e.target.tagName === 'IMG') {
+        const src = e.target.getAttribute('src');
+        if (src && !e.target._imgRetried) {
+          e.target._imgRetried = true;
+          if (src.startsWith('images/')) {
+            e.target.src = src.replace('images/', '');
+          } else if (!src.startsWith('http') && !src.startsWith('/')) {
+            e.target.src = 'images/' + src;
+          }
+        }
+      }
+    }, true);
+
     // 1. Mobile Menu Toggle
     function toggleMenu() {
       const menu = document.getElementById('navMenu');
@@ -2284,7 +2300,22 @@
       const titleElem = document.getElementById('modalVideoTitle');
       
       titleElem.textContent = projectTitle ? `فيديو: ${projectTitle}` : 'جولة الفيديو في المشروع';
+      
       player.src = videoSrc;
+      
+      // Auto fallback between root and videos/ folder
+      player.onerror = function() {
+        if (!player._retried) {
+          player._retried = true;
+          if (videoSrc.startsWith('videos/')) {
+            player.src = videoSrc.replace('videos/', '');
+          } else {
+            player.src = 'videos/' + videoSrc;
+          }
+          player.play().catch(e => console.log('Playback handled'));
+        }
+      };
+
       modal.classList.add('active');
       player.play().catch(e => console.log('Autoplay handled'));
     }
@@ -2319,10 +2350,10 @@
         title: "بورتو المنيا الجديدة — عمارات الأوفال",
         category: "minya",
         location: "بورتو المنيا الجديدة، الحي الرابع، عمارات الأوفال",
-        image: "images/project-porto-oval.jpg",
+        image: "project-porto-oval.jpg",
         tags: ["122م² و 95م²", "أرضي بجاردن خاصة", "أقساط شهرية / ربع سنوية", "فيو كمبوند فاخر"],
         status: "متاح للحجز الفوري",
-        video: "videos/porto_oval_promo.mp4",
+        video: "porto_oval_promo.mp4",
         details: [
           "شقق سكنية فاخرة بمساحات 122م² و 95م² بنماذج وتقسيمات معمارية متعددة",
           "متاح وحدات دور أرضي بحديقة خاصة: جاردن 13م² لشقق 122م²، وجاردن 18م² لشقق 95م²",
@@ -2336,10 +2367,10 @@
         title: "برج شارع المدارس — بجوار جامع الزهراء",
         category: "samalut",
         location: "شارع المدارس الرئيسي، سمالوط، أمام عيادة د. وفائي سمير",
-        image: "images/tower-zahraa.png",
+        image: "tower-zahraa.png",
         tags: ["من 110م² حتى 125م²", "واجهة بحرية", "يطل على 3 نواصٍ", "شارع رئيسي عريض"],
         status: "متاح للبيع",
-        video: "videos/zahraa_promo.mp4",
+        video: "zahraa_promo_video.mp4",
         details: [
           "شقق سكنية بمساحات متنوعة تبدأ من 110م² وحتى 125م²",
           "واجهة بحرية مميزة تضمن إضاءة وتهوية طبيعية طوال اليوم",
@@ -2352,10 +2383,10 @@
         title: "برج الفؤاد — بجوار موقف مصر",
         category: "samalut",
         location: "سمالوط، شارع بورسعيد الرئيسي بجوار موقف مصر ومستشفى الرمد",
-        image: "images/fouad-composite.png",
+        image: "fouad-composite.png",
         tags: ["110م² و 125م²", "واجهة شرقية وقبلية", "3 شقق فقط بالدور", "موقع استراتيجي"],
         status: "متاح للبيع",
-        video: "videos/fouad_promo.mp4",
+        video: "al_fouad_promo.mp4",
         details: [
           "شقق سكنية بمساحات مميزة 110م² و 125م² (شرقية قبلية وقبلية غربية)",
           "موقع استراتيجي على شارع بورسعيد مباشرة وسهولة الوصول لموقف مصر",
@@ -2384,7 +2415,7 @@
         title: "برج شارع أسواق الاتحاد — شقة واحدة بكل دور",
         category: "samalut",
         location: "شارع أسواق الاتحاد الحيوي، سمالوط",
-        image: "images/plan-etihad.png",
+        image: "plan-etihad.png",
         tags: ["85م²", "شقة واحدة بكل دور", "خصوصية تامة 100%", "استغلال هندسي ذكي"],
         status: "متاح للبيع",
         video: null,
@@ -2400,7 +2431,7 @@
         title: "برج أول الفيروز — سمالوط",
         category: "samalut",
         location: "شارع الفيروز الرئيسي، سمالوط، المنيا",
-        image: "images/plan-fayrouz.png",
+        image: "plan-fayrouz.png",
         tags: ["140م²", "شقة واحدة بالدور", "مساحة عائلية واسعة", "موقع هادئ وحيوي"],
         status: "متاح للبيع",
         video: null,
@@ -2416,7 +2447,7 @@
         title: "المحلات والوحدات التجارية بالأبراج",
         category: "commercial",
         location: "بأرقى الشوارع والمحاور الرئيسية بالمنيا وسمالوط",
-        image: "images/commercial-showcase.png",
+        image: "commercial-showcase.png",
         tags: ["مساحات متنوعة", "واجهات زجاجية عريضة", "حركة مرور نشطة", "عائد استثماري مرتفع"],
         status: "متاح للاستثمار",
         video: null,
